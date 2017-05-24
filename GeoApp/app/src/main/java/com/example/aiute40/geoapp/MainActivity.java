@@ -70,46 +70,53 @@ public class MainActivity extends AppCompatActivity {
 
     private void calculate() {
         TextView lon1 = (TextView) findViewById(R.id.lon1);
-        Double lon1Value = Double.parseDouble(lon1.getText().toString());
         TextView lon2 = (TextView) findViewById(R.id.lon2);
-        Double lon2Value = Double.parseDouble(lon2.getText().toString());
         TextView lat1 = (TextView) findViewById(R.id.lat1);
-        Double lat1Value = Double.parseDouble(lat1.getText().toString());
         TextView lat2 = (TextView) findViewById(R.id.lat2);
-        Double lat2Value = Double.parseDouble(lat2.getText().toString());
+
+        if(lon1.getText() != null && lon1.getText().length() > 0 &&
+                lat1.getText() != null && lat1.getText().length() > 0 &&
+                lon2.getText() != null && lon2.getText().length() > 0 &&
+                lat2.getText() != null && lat2.getText().length() > 0
+                ) {
+            Double lat1Value = Double.parseDouble(lat1.getText().toString());
+            Double lon1Value = Double.parseDouble(lon1.getText().toString());
+            Double lat2Value = Double.parseDouble(lat2.getText().toString());
+            Double lon2Value = Double.parseDouble(lon2.getText().toString());
 
 
-        Location fromLocation = new Location("fromLocation");
-        fromLocation.setLatitude(lat1Value);
-        fromLocation.setLongitude(lon1Value);
-        Location toLocation = new Location("toLocation");
-        toLocation.setLatitude(lat2Value);
-        toLocation.setLongitude(lon2Value);
+            Location fromLocation = new Location("fromLocation");
+            fromLocation.setLatitude(lat1Value);
+            fromLocation.setLongitude(lon1Value);
+            Location toLocation = new Location("toLocation");
+            toLocation.setLatitude(lat2Value);
+            toLocation.setLongitude(lon2Value);
 
-        double distanceInMeters = fromLocation.distanceTo(toLocation);
-        double bearingInDegrees = fromLocation.bearingTo(toLocation);
-        double finalDistance = 0;
-        double finalBearing = bearingInDegrees;
+            double distanceInMeters = fromLocation.distanceTo(toLocation);
+            double bearingInDegrees = fromLocation.bearingTo(toLocation);
+            double finalDistance = 0;
+            double finalBearing = bearingInDegrees;
 
-        if(distanceUnits.equals("kilometers")) {
-            finalDistance = distanceInMeters / 1000;
-        } else {
-            finalDistance = distanceInMeters / 1609.34;
+            if(distanceUnits.equals("kilometers")) {
+                finalDistance = distanceInMeters / 1000;
+            } else {
+                finalDistance = distanceInMeters / 1609.34;
+            }
+
+            if(bearingUnits.equals("mils")) {
+                finalBearing *= 17.777777777778;
+            }
+
+            // Round to 2 decimal places
+            finalDistance = Math.round(finalDistance * 100.0) / 100.0;
+            finalBearing = Math.round(finalBearing * 100.0) / 100.0;
+
+            TextView bearingText = (TextView) findViewById(R.id.bearingText);
+            TextView distanceText = (TextView) findViewById(R.id.distanceText);
+
+            bearingText.setText(BEARING_BASE_STR + finalBearing + " " + bearingUnits);
+            distanceText.setText(DISTANCE_BASE_STR + finalDistance + " " + distanceUnits);
         }
-
-        if(bearingUnits.equals("mils")) {
-            finalBearing *= 17.777777777778;
-        }
-
-        // Round to 2 decimal places
-        finalDistance = Math.round(finalDistance * 100.0) / 100.0;
-        finalBearing = Math.round(finalBearing * 100.0) / 100.0;
-
-        TextView bearingText = (TextView) findViewById(R.id.bearingText);
-        TextView distanceText = (TextView) findViewById(R.id.distanceText);
-
-        bearingText.setText(BEARING_BASE_STR + finalBearing + " " + bearingUnits);
-        distanceText.setText(DISTANCE_BASE_STR + finalDistance + " " + distanceUnits);
     }
 
     @Override
