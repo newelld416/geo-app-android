@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="distance_units">
-        <item>kilometers</item>
-        <item>miles</item>
+        <item>Kilometers</item>
+        <item>Miles</item>
     </string-array>
 </resources>

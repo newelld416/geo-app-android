@@ -15,8 +15,10 @@
         android:id="@+id/distanceUnitsTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Distance Units"
         android:layout_marginTop="8dp"
+        android:text="Distance Units"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,6 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Bearing Units"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="bearing_units">
-        <item>degrees</item>
-        <item>mils</item>
+        <item>Degrees</item>
+        <item>Mils</item>
     </string-array>
 </resources>

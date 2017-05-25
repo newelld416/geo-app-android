@@ -15,8 +15,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int SETTINGS_SELECTION = 1;
     private final static String BEARING_BASE_STR = "Bearing: ";
     private final static String DISTANCE_BASE_STR = "Distance: ";
-    private String bearingUnits = "degrees";
-    private String distanceUnits = "kilometers";
+    private String bearingUnits = "Degrees";
+    private String distanceUnits = "Kilometers";
     private int bearingUnitsIndex = 0;
     private int distanceUnitsIndex = 0;
 
@@ -97,13 +97,13 @@ public class MainActivity extends AppCompatActivity {
             double finalDistance = 0;
             double finalBearing = bearingInDegrees;
 
-            if(distanceUnits.equals("kilometers")) {
+            if(distanceUnits.equals("Kilometers")) {
                 finalDistance = distanceInMeters / 1000;
             } else {
                 finalDistance = distanceInMeters / 1609.34;
             }
 
-            if(bearingUnits.equals("mils")) {
+            if(bearingUnits.equals("Mils")) {
                 finalBearing *= 17.777777777778;
             }
 
