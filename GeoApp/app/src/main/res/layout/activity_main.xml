@@ -5,113 +5,122 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
+        tools:context="com.example.aiute40.geoapp.MainActivity">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context="com.example.aiute40.geoapp.MainActivity">
+        <EditText
+            android:id="@+id/lat1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:inputType="textPersonName|numberSigned|numberDecimal"
+            android:numeric="signed|decimal"
+            android:text="43.077366"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/guideline3"
+            android:layout_marginRight="8dp" />
 
-            <EditText
-                android:id="@+id/lat1"
-                android:layout_width="167dp"
-                android:layout_height="47dp"
-                android:layout_marginBottom="530dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="228dp"
-                android:ems="10"
-                android:inputType="textPersonName|numberSigned|numberDecimal"
-                android:numeric="signed|decimal"
-                android:text="43.077366"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+        <EditText
+            android:id="@+id/lon2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="textPersonName|numberSigned|numberDecimal"
+            android:numeric="signed|decimal"
+            android:text="-85.993860"
+            app:layout_constraintLeft_toLeftOf="@+id/lon1"
+            app:layout_constraintRight_toRightOf="@+id/lon1"
+            app:layout_constraintTop_toBottomOf="@+id/lon1" />
 
-            <EditText
-                android:id="@+id/lon2"
-                android:layout_width="167dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="464dp"
-                android:layout_marginRight="39dp"
-                android:ems="10"
-                android:inputType="textPersonName|numberSigned|numberDecimal"
-                android:numeric="signed|decimal"
-                android:text="-85.993860"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+        <EditText
+            android:id="@+id/lon1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:inputType="textPersonName|numberSigned|numberDecimal"
+            android:numeric="signed|decimal"
+            android:text="-85.994053"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline3" />
 
-            <EditText
-                android:id="@+id/lon1"
-                android:layout_width="171dp"
-                android:layout_height="45dp"
-                android:layout_marginBottom="533dp"
-                android:layout_marginRight="35dp"
-                android:ems="10"
-                android:inputType="textPersonName|numberSigned|numberDecimal"
-                android:numeric="signed|decimal"
-                android:text="-85.994053"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+        <EditText
+            android:id="@+id/lat2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="textPersonName|numberSigned|numberDecimal"
+            android:numeric="signed|decimal"
+            android:text="43.077303"
+            app:layout_constraintLeft_toLeftOf="@+id/lat1"
+            app:layout_constraintRight_toRightOf="@+id/lat1"
+            app:layout_constraintTop_toBottomOf="@+id/lat1" />
 
-            <EditText
-                android:id="@+id/lat2"
-                android:layout_width="165dp"
-                android:layout_height="43dp"
-                android:layout_marginBottom="462dp"
-                android:layout_marginLeft="20dp"
-                android:ems="10"
-                android:inputType="textPersonName|numberSigned|numberDecimal"
-                android:numeric="signed|decimal"
-                android:text="43.077303"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent" />
+        <Button
+            android:id="@+id/calculateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="8dp"
+            android:text="Calculate"
+            app:layout_constraintLeft_toLeftOf="@+id/lat1"
+            app:layout_constraintTop_toBottomOf="@+id/lat2" />
 
-            <Button
-                android:id="@+id/calculateButton"
-                android:layout_width="167dp"
-                android:layout_height="48dp"
-                android:text="Calculate"
-                android:layout_marginLeft="20dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="381dp"
-                tools:layout_editor_absoluteY="173dp" />
+        <Button
+            android:id="@+id/clearButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:text="Clear"
+            app:layout_constraintRight_toRightOf="@+id/lon1"
+            app:layout_constraintTop_toBottomOf="@+id/lon2" />
 
-            <Button
-                android:id="@+id/clearButton"
-                android:layout_width="168dp"
-                android:layout_height="50dp"
-                android:text="Clear"
-                android:layout_marginRight="38dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="379dp" />
+        <TextView
+            android:id="@+id/distanceText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:text="Distance: "
+            app:layout_constraintLeft_toLeftOf="@+id/lat1"
+            app:layout_constraintRight_toRightOf="@+id/lon1"
+            app:layout_constraintTop_toBottomOf="@+id/calculateButton" />
 
-            <TextView
-                android:id="@+id/distanceText"
-                android:layout_width="196dp"
-                android:layout_height="21dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="220dp"
-                android:text="Distance: "
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/bearingText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:text="Bearing: "
+            app:layout_constraintLeft_toLeftOf="@+id/lat1"
+            app:layout_constraintRight_toRightOf="@+id/lon1"
+            app:layout_constraintTop_toBottomOf="@+id/distanceText" />
 
-            <TextView
-                android:id="@+id/bearingText"
-                android:layout_width="196dp"
-                android:layout_height="17dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="265dp"
-                android:text="Bearing: "
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
 
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.design.widget.CoordinatorLayout>
