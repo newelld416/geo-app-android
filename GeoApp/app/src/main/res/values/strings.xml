@@ -74,4 +74,5 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_my_settings">MySettingsActivity</string>
+    <string name="title_activity_history">HistoryActivity</string>
 </resources>

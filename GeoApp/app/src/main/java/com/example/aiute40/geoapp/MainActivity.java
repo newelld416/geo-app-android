@@ -13,10 +13,14 @@ import android.location.Location;
 
 public class MainActivity extends AppCompatActivity {
     public static final int SETTINGS_SELECTION = 1;
+    public static final int HISTORY_RESULT = 2;
+
     private final static String BEARING_BASE_STR = "Bearing: ";
     private final static String DISTANCE_BASE_STR = "Distance: ";
+
     private String bearingUnits = "Degrees";
     private String distanceUnits = "Kilometers";
+
     private int bearingUnitsIndex = 0;
     private int distanceUnitsIndex = 0;
 
@@ -132,6 +136,10 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(DISTANCE_UNITS_INTENT_INDEX, this.distanceUnitsIndex);
             intent.putExtra(BEARING_UNITS_INTENT_INDEX, this.bearingUnitsIndex);
             startActivityForResult(intent, SETTINGS_SELECTION);
+            return true;
+        } else if(item.getItemId() == R.id.action_history) {
+            Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+            startActivityForResult(intent, HISTORY_RESULT );
             return true;
         }
         return false;
