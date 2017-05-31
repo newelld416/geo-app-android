@@ -3,6 +3,7 @@ package com.example.aiute40.geoapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.aiute40.geoapp.dummy.DummyContent;
-import com.example.aiute40.geoapp.dummy.DummyContent.DummyItem;
+import com.example.aiute40.geoapp.history.HistoryContent;
+import com.example.aiute40.geoapp.history.HistoryContent.HistoryItem;
 
 /**
  * A fragment representing a list of Items.
@@ -67,7 +68,10 @@ public class HistoryFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new HistoryAdapter(DummyContent.ITEMS, mListener));
+
+            DividerItemDecoration did = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+            recyclerView.addItemDecoration(did);
+            recyclerView.setAdapter(new HistoryAdapter(HistoryContent.ITEMS, mListener));
         }
         return view;
     }
@@ -102,6 +106,6 @@ public class HistoryFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(HistoryItem item);
     }
 }

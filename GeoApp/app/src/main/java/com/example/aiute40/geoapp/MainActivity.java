@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.location.Location;
 
+import com.example.aiute40.geoapp.history.HistoryContent;
+
+import org.joda.time.DateTime;
+
 
 public class MainActivity extends AppCompatActivity {
     public static final int SETTINGS_SELECTION = 1;
@@ -29,34 +33,47 @@ public class MainActivity extends AppCompatActivity {
     public static final String BEARING_UNITS_INTENT = "bearingUnits";
     public static final String BEARING_UNITS_INTENT_INDEX = "bearingUnitsIndex";
 
+    TextView longitude1, longitude2, latitude1, latitude2, bearingText, distanceText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
 
+        longitude1 = (TextView) findViewById(R.id.lon1);
+        longitude2 = (TextView) findViewById(R.id.lon2);
+        latitude1 = (TextView) findViewById(R.id.lat1);
+        latitude2 = (TextView) findViewById(R.id.lat2);
+
+        bearingText = (TextView) findViewById(R.id.bearingText);
+        distanceText = (TextView) findViewById(R.id.distanceText);
+
         //This is our calculate button definition and action
         Button calculateButton = (Button) findViewById(R.id.calculateButton);
         calculateButton.setOnClickListener((v) -> {
             hideSoftKeyBoard();
 
-            calculate();
+            if(calculate()) {
+                HistoryContent.HistoryItem item = new HistoryContent.HistoryItem(
+                        latitude1.getText().toString(),
+                        longitude1.getText().toString(),
+                        latitude2.getText().toString(),
+                        longitude2.getText().toString(),
+                        DateTime.now()
+                );
+                HistoryContent.addItem(item);
+            }
         });
 
         Button clearButton = (Button) findViewById(R.id.clearButton);
         clearButton.setOnClickListener((v) -> {
             hideSoftKeyBoard();
-            TextView lon1 = (TextView) findViewById(R.id.lon1);
-            lon1.setText("");
-            TextView lon2 = (TextView) findViewById(R.id.lon2);
-            lon2.setText("");
-            TextView lat1 = (TextView) findViewById(R.id.lat1);
-            lat1.setText("");
-            TextView lat2 = (TextView) findViewById(R.id.lat2);
-            lat2.setText("");
 
-            TextView bearingText = (TextView) findViewById(R.id.bearingText);
-            TextView distanceText = (TextView) findViewById(R.id.distanceText);
+            longitude1.setText("");
+            longitude2.setText("");
+            latitude1.setText("");
+            latitude2.setText("");
 
             bearingText.setText(BEARING_BASE_STR);
             distanceText.setText(DISTANCE_BASE_STR);
@@ -72,21 +89,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void calculate() {
-        TextView lon1 = (TextView) findViewById(R.id.lon1);
-        TextView lon2 = (TextView) findViewById(R.id.lon2);
-        TextView lat1 = (TextView) findViewById(R.id.lat1);
-        TextView lat2 = (TextView) findViewById(R.id.lat2);
-
-        if(lon1.getText() != null && lon1.getText().length() > 0 &&
-                lat1.getText() != null && lat1.getText().length() > 0 &&
-                lon2.getText() != null && lon2.getText().length() > 0 &&
-                lat2.getText() != null && lat2.getText().length() > 0
+    private boolean calculate() {
+        if(longitude1.getText() != null && longitude1.getText().length() > 0 &&
+                latitude1.getText() != null && latitude1.getText().length() > 0 &&
+                longitude2.getText() != null && longitude2.getText().length() > 0 &&
+                latitude2.getText() != null && latitude2.getText().length() > 0
                 ) {
-            Double lat1Value = Double.parseDouble(lat1.getText().toString());
-            Double lon1Value = Double.parseDouble(lon1.getText().toString());
-            Double lat2Value = Double.parseDouble(lat2.getText().toString());
-            Double lon2Value = Double.parseDouble(lon2.getText().toString());
+            Double lat1Value = Double.parseDouble(latitude1.getText().toString());
+            Double lon1Value = Double.parseDouble(longitude1.getText().toString());
+            Double lat2Value = Double.parseDouble(latitude2.getText().toString());
+            Double lon2Value = Double.parseDouble(longitude2.getText().toString());
 
 
             Location fromLocation = new Location("fromLocation");
@@ -120,6 +132,12 @@ public class MainActivity extends AppCompatActivity {
 
             bearingText.setText(BEARING_BASE_STR + finalBearing + " " + bearingUnits);
             distanceText.setText(DISTANCE_BASE_STR + finalDistance + " " + distanceUnits);
+
+            // Did calculate a valid set of points
+            return true;
+        } else {
+            // Did not calculate a valid set of points
+            return false;
         }
     }
 
@@ -152,6 +170,13 @@ public class MainActivity extends AppCompatActivity {
             bearingUnits = data.getStringExtra(BEARING_UNITS_INTENT);
             distanceUnitsIndex = data.getIntExtra(DISTANCE_UNITS_INTENT_INDEX, distanceUnitsIndex);
             bearingUnitsIndex = data.getIntExtra(BEARING_UNITS_INTENT_INDEX, bearingUnitsIndex);
+            calculate();
+        } else if (resultCode == HISTORY_RESULT) {
+            String[] vals = data.getStringArrayExtra("item");
+            this.latitude1.setText(vals[0]);
+            this.longitude1.setText(vals[1]);
+            this.latitude2.setText(vals[2]);
+            this.longitude2.setText(vals[3]);
             calculate();
         }
     }

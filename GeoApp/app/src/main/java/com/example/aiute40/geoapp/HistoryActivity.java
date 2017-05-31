@@ -1,13 +1,16 @@
 package com.example.aiute40.geoapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.example.aiute40.geoapp.dummy.DummyContent;
+import com.example.aiute40.geoapp.history.HistoryContent;
 
 public class HistoryActivity extends AppCompatActivity implements HistoryFragment.OnListFragmentInteractionListener {
 
@@ -29,7 +32,11 @@ public class HistoryActivity extends AppCompatActivity implements HistoryFragmen
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-        System.out.println("Interact!");
+    public void onListFragmentInteraction(HistoryContent.HistoryItem item) {
+        Intent intent = new Intent();
+        String[] vals = {item.origLat, item.origLng, item.destLat, item.destLng};
+        intent.putExtra("item", vals);
+        setResult(MainActivity.HISTORY_RESULT,intent);
+        finish();
     }
 }
