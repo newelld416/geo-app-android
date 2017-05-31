@@ -5,9 +5,7 @@
     android:id="@+id/list"
     android:name="com.example.aiute40.geoapp.ItemFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_height="wrap_content"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.example.aiute40.geoapp.HistoryFragment"
     tools:listitem="@layout/fragment_history" />
