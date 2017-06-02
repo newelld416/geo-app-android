@@ -30,14 +30,14 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryAdapter.
 
     public HistoryAdapter(List<HistoryItem> items, OnListFragmentInteractionListener listener) {
         //mValues = items;
-        this.dayValues = new HashMap<String,List<HistoryItem>>();
-        this.sectionHeaders = new ArrayList<String>();
+        this.dayValues = new HashMap<>();
+        this.sectionHeaders = new ArrayList<>();
         DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
         for (HistoryItem hi : items) {
             String key = "Entries for " + fmt.print(hi.timestamp);
             List<HistoryItem> list = this.dayValues.get(key);
             if (list == null) {
-                list = new ArrayList<HistoryItem>();
+                list = new ArrayList<>();
                 this.dayValues.put(key, list);
                 this.sectionHeaders.add(key);
             }
