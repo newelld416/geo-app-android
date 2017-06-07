@@ -1,10 +1,12 @@
 package com.example.aiute40.geoapp;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,10 +16,15 @@ import com.example.aiute40.geoapp.history.HistoryContent;
 
 import org.joda.time.DateTime;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 
 public class MainActivity extends AppCompatActivity {
     public static final int SETTINGS_SELECTION = 1;
     public static final int HISTORY_RESULT = 2;
+    public static final int LOCATION_SEARCH_RESULT = 3;
 
     private final static String BEARING_BASE_STR = "Bearing: ";
     private final static String DISTANCE_BASE_STR = "Distance: ";
@@ -33,21 +40,30 @@ public class MainActivity extends AppCompatActivity {
     public static final String BEARING_UNITS_INTENT = "bearingUnits";
     public static final String BEARING_UNITS_INTENT_INDEX = "bearingUnitsIndex";
 
-    TextView longitude1, longitude2, latitude1, latitude2, bearingText, distanceText;
+    @BindView(R.id.lon1)
+    public TextView longitude1;
+
+    @BindView(R.id.lon2)
+    public TextView longitude2;
+
+    @BindView(R.id.lat1)
+    public TextView latitude1;
+
+    @BindView(R.id.lat2)
+    public TextView latitude2;
+
+    @BindView(R.id.bearingText)
+    public TextView bearingText;
+
+    @BindView(R.id.distanceText)
+    public TextView distanceText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
-        longitude1 = (TextView) findViewById(R.id.lon1);
-        longitude2 = (TextView) findViewById(R.id.lon2);
-        latitude1 = (TextView) findViewById(R.id.lat1);
-        latitude2 = (TextView) findViewById(R.id.lat2);
-
-        bearingText = (TextView) findViewById(R.id.bearingText);
-        distanceText = (TextView) findViewById(R.id.distanceText);
+        ButterKnife.bind(this);
 
         //This is our calculate button definition and action
         Button calculateButton = (Button) findViewById(R.id.calculateButton);
@@ -78,6 +94,12 @@ public class MainActivity extends AppCompatActivity {
             bearingText.setText(BEARING_BASE_STR);
             distanceText.setText(DISTANCE_BASE_STR);
         });
+    }
+
+    @OnClick(R.id.searchButton)
+    public void onSearchButtonClick(View view) {
+        Intent intent = new Intent(MainActivity.this, LocationSearchActivity.class);
+        startActivityForResult(intent, LOCATION_SEARCH_RESULT);
     }
 
     private void hideSoftKeyBoard() {
