@@ -2,19 +2,29 @@ package com.example.aiute40.geoapp;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.location.Location;
 
-import com.example.aiute40.geoapp.history.HistoryContent;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.aiute40.geoapp.R.id.lat1;
+import static com.example.aiute40.geoapp.R.id.lat2;
+import static com.example.aiute40.geoapp.R.id.lon1;
+import static com.example.aiute40.geoapp.R.id.lon2;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.distanceText)
     public TextView distanceText;
 
+    DatabaseReference topRef;
+
+    public static List<LocationLookup> allHistory;
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        topRef = FirebaseDatabase.getInstance().getReference();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,20 +85,22 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        allHistory = new ArrayList<LocationLookup>();
+
         //This is our calculate button definition and action
         Button calculateButton = (Button) findViewById(R.id.calculateButton);
         calculateButton.setOnClickListener((v) -> {
             hideSoftKeyBoard();
 
             if(calculate()) {
-                HistoryContent.HistoryItem item = new HistoryContent.HistoryItem(
-                        latitude1.getText().toString(),
-                        longitude1.getText().toString(),
-                        latitude2.getText().toString(),
-                        longitude2.getText().toString(),
-                        DateTime.now()
-                );
-                HistoryContent.addItem(item);
+                LocationLookup entry = new LocationLookup();
+                entry.setOrigLat(lat1);
+                entry.setOrigLng(lon1);
+                entry.setEndLat(lat2);
+                entry.setEndLng(lon2);
+                DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+                //entry.setTimestamp(fmt.print(DateTime.now());
+                topRef.push().setValue(entry);
             }
         });
 
