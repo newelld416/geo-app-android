@@ -89,7 +89,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Button calculateButton = (Button) findViewById(R.id.calculateButton);
         calculateButton.setOnClickListener((v) -> {
             hideSoftKeyBoard();
-            calculate();
+            if(calculate()) {
+                saveItem();
+            }
         });
 
         Button clearButton = (Button) findViewById(R.id.clearButton);
@@ -172,20 +174,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
             // Did calculate a valid set of points
 
-            LocationLookup entry = new LocationLookup();
-            entry.setOrigLat(Double.valueOf(latitude1.getText().toString()));
-            entry.setOrigLng(Double.valueOf(longitude1.getText().toString()));
-            entry.setDestLat(Double.valueOf(latitude2.getText().toString()));
-            entry.setDestLng(Double.valueOf(longitude2.getText().toString()));
-            DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
-            entry.setTimestamp(fmt.print(DateTime.now()));
-            topRef.push().setValue(entry);
-
             return true;
         } else {
             // Did not calculate a valid set of points
             return false;
         }
+    }
+
+    private void saveItem() {
+        LocationLookup entry = new LocationLookup();
+        entry.setOrigLat(Double.valueOf(latitude1.getText().toString()));
+        entry.setOrigLng(Double.valueOf(longitude1.getText().toString()));
+        entry.setDestLat(Double.valueOf(latitude2.getText().toString()));
+        entry.setDestLng(Double.valueOf(longitude2.getText().toString()));
+        DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+        entry.setTimestamp(fmt.print(DateTime.now()));
+        topRef.push().setValue(entry);
     }
 
     @Override
@@ -234,7 +238,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 latitude1.setText(String.valueOf(locationLookup.getOrigLat()));
                 longitude2.setText(String.valueOf(locationLookup.getDestLng()));
                 latitude2.setText(String.valueOf(locationLookup.getDestLat()));
-                calculate();
+                if(calculate()) {
+                    saveItem();
+                }
             }
         }
     }
