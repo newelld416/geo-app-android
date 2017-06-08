@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,8 +99,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 LocationLookup entry = new LocationLookup();
                 entry.setOrigLat(lat1);
                 entry.setOrigLng(lon1);
-                entry.setEndLat(lat2);
-                entry.setEndLng(lon2);
+                entry.setDestLat(lat2);
+                entry.setDestLng(lon2);
                 DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
                 entry.setTimestamp(fmt.print(DateTime.now()));
                 topRef.push().setValue(entry);
@@ -229,8 +228,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             LocationLookup locationLookup = Parcels.unwrap(parcel);
             this.latitude1.setText(String.valueOf(locationLookup.getOrigLat()));
             this.longitude1.setText(String.valueOf(locationLookup.getOrigLng()));
-            this.latitude2.setText(String.valueOf(locationLookup.getEndLat()));
-            this.longitude2.setText(String.valueOf(locationLookup.getEndLng()));
+            this.latitude2.setText(String.valueOf(locationLookup.getDestLat()));
+            this.longitude2.setText(String.valueOf(locationLookup.getDestLng()));
             calculate();
         } else if (resultCode == LOCATION_SEARCH_RESULT) {
             if (data != null && data.hasExtra(INTENT_LOCATION_RESULT)) {
@@ -238,8 +237,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 LocationLookup locationLookup = Parcels.unwrap(parcel);
                 longitude1.setText(String.valueOf(locationLookup.getOrigLng()));
                 latitude1.setText(String.valueOf(locationLookup.getOrigLat()));
-                longitude2.setText(String.valueOf(locationLookup.getEndLng()));
-                latitude2.setText(String.valueOf(locationLookup.getEndLat()));
+                longitude2.setText(String.valueOf(locationLookup.getDestLng()));
+                latitude2.setText(String.valueOf(locationLookup.getDestLat()));
                 calculate();
             }
         }

@@ -4,8 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -119,8 +117,8 @@ public class LocationSearchActivity extends AppCompatActivity implements DatePic
             locationLookup.origLng = origLatLng.longitude;
         }
         if(endLatLng != null) {
-            locationLookup.endLat = endLatLng.latitude;
-            locationLookup.endLng = endLatLng.longitude;
+            locationLookup.destLat = endLatLng.latitude;
+            locationLookup.destLng = endLatLng.longitude;
         }
 
         Parcelable parcelable = Parcels.wrap(locationLookup);

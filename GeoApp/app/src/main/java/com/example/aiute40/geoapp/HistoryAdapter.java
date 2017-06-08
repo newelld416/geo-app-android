@@ -102,7 +102,7 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryAdapter.
     protected void onBindItemViewHolder(ViewHolder holder, int section, int position) {
         holder.mItem = this.dayValues.get(this.sectionHeaders.get(section)).get(position);
         holder.mP1.setText("(" + holder.mItem.origLat + "," + holder.mItem.origLng + ")");
-        holder.mP2.setText("(" + holder.mItem.endLat + "," + holder.mItem.endLng + ")");
+        holder.mP2.setText("(" + holder.mItem.destLat + "," + holder.mItem.destLng + ")");
         holder.mDateTime.setText(holder.mItem.timestamp.toString());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

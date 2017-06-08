@@ -10,8 +10,8 @@ import org.parceler.Parcel;
 public class LocationLookup {
     double origLat;
     double origLng;
-    double endLat;
-    double endLng;
+    double destLat;
+    double destLng;
     String timestamp;
 
     String _key;
@@ -32,20 +32,20 @@ public class LocationLookup {
         this.origLng = origLng;
     }
 
-    public double getEndLat() {
-        return endLat;
+    public double getDestLat() {
+        return destLat;
     }
 
-    public void setEndLat(double endLat) {
-        this.endLat = endLat;
+    public void setDestLat(double destLat) {
+        this.destLat = destLat;
     }
 
-    public double getEndLng() {
-        return endLng;
+    public double getDestLng() {
+        return destLng;
     }
 
-    public void setEndLng(double endLng) {
-        this.endLng = endLng;
+    public void setDestLng(double destLng) {
+        this.destLng = destLng;
     }
 
     public String get_key() {
