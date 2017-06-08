@@ -12,6 +12,7 @@ public class LocationLookup {
     double origLng;
     double endLat;
     double endLng;
+    String timestamp;
 
     String _key;
 
@@ -53,5 +54,13 @@ public class LocationLookup {
 
     public void set_key(String _key) {
         this._key = _key;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }

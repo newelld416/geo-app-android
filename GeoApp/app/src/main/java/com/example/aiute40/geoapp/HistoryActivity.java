@@ -2,10 +2,11 @@ package com.example.aiute40.geoapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.example.aiute40.geoapp.history.HistoryContent;
+import org.parceler.Parcels;
 
 public class HistoryActivity extends AppCompatActivity implements HistoryFragment.OnListFragmentInteractionListener {
 
@@ -18,10 +19,10 @@ public class HistoryActivity extends AppCompatActivity implements HistoryFragmen
     }
 
     @Override
-    public void onListFragmentInteraction(HistoryContent.HistoryItem item) {
+    public void onListFragmentInteraction(LocationLookup locationLookup) {
         Intent intent = new Intent();
-        String[] vals = {item.origLat, item.origLng, item.destLat, item.destLng};
-        intent.putExtra("item", vals);
+        Parcelable parcelable = Parcels.wrap(locationLookup);
+        intent.putExtra("item", parcelable);
         setResult(MainActivity.HISTORY_RESULT,intent);
         finish();
     }
