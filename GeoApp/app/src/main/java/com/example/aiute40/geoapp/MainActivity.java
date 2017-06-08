@@ -1,10 +1,12 @@
 package com.example.aiute40.geoapp;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,11 +14,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +36,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     public static final int SETTINGS_SELECTION = 1;
     public static final int HISTORY_RESULT = 2;
     public static final int LOCATION_SEARCH_RESULT = 3;
+    public static final String INTENT_LOCATION_RESULT = "INTENT_LOCATION_RESULT";
 
     private final static String BEARING_BASE_STR = "Bearing: ";
     private final static String DISTANCE_BASE_STR = "Distance: ";
@@ -85,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        allHistory = new ArrayList<LocationLookup>();
+        allHistory = new ArrayList<>();
 
         //This is our calculate button definition and action
         Button calculateButton = (Button) findViewById(R.id.calculateButton);
@@ -116,6 +122,11 @@ public class MainActivity extends AppCompatActivity {
             bearingText.setText(BEARING_BASE_STR);
             distanceText.setText(DISTANCE_BASE_STR);
         });
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        System.out.println("oops");
     }
 
     @OnClick(R.id.searchButton)
@@ -222,6 +233,16 @@ public class MainActivity extends AppCompatActivity {
             this.latitude2.setText(vals[2]);
             this.longitude2.setText(vals[3]);
             calculate();
+        } else if(resultCode == LOCATION_SEARCH_RESULT) {
+            if (data != null && data.hasExtra(INTENT_LOCATION_RESULT)) {
+                Parcelable parcel = data.getParcelableExtra(INTENT_LOCATION_RESULT);
+                LocationLookup locationLookup = Parcels.unwrap(parcel);
+                longitude1.setText(String.valueOf(locationLookup.getOrigLng()));
+                latitude1.setText(String.valueOf(locationLookup.getOrigLat()));
+                longitude2.setText(String.valueOf(locationLookup.getEndLng()));
+                latitude2.setText(String.valueOf(locationLookup.getEndLat()));
+                calculate();
+            }
         }
     }
 }
