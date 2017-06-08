@@ -29,11 +29,6 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.aiute40.geoapp.R.id.lat1;
-import static com.example.aiute40.geoapp.R.id.lat2;
-import static com.example.aiute40.geoapp.R.id.lon1;
-import static com.example.aiute40.geoapp.R.id.lon2;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -94,17 +89,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Button calculateButton = (Button) findViewById(R.id.calculateButton);
         calculateButton.setOnClickListener((v) -> {
             hideSoftKeyBoard();
-
-            if (calculate()) {
-                LocationLookup entry = new LocationLookup();
-                entry.setOrigLat(Double.valueOf(latitude1.getText().toString()));
-                entry.setOrigLng(Double.valueOf(longitude1.getText().toString()));
-                entry.setDestLat(Double.valueOf(latitude2.getText().toString()));
-                entry.setDestLng(Double.valueOf(longitude2.getText().toString()));
-                DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
-                entry.setTimestamp(fmt.print(DateTime.now()));
-                topRef.push().setValue(entry);
-            }
+            calculate();
         });
 
         Button clearButton = (Button) findViewById(R.id.clearButton);
@@ -186,6 +171,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             distanceText.setText(DISTANCE_BASE_STR + finalDistance + " " + distanceUnits);
 
             // Did calculate a valid set of points
+
+            LocationLookup entry = new LocationLookup();
+            entry.setOrigLat(Double.valueOf(latitude1.getText().toString()));
+            entry.setOrigLng(Double.valueOf(longitude1.getText().toString()));
+            entry.setDestLat(Double.valueOf(latitude2.getText().toString()));
+            entry.setDestLng(Double.valueOf(longitude2.getText().toString()));
+            DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+            entry.setTimestamp(fmt.print(DateTime.now()));
+            topRef.push().setValue(entry);
+
             return true;
         } else {
             // Did not calculate a valid set of points
