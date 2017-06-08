@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 import org.joda.time.DateTime;
 import org.parceler.Parcels;
 
+import java.text.DateFormatSymbols;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -104,7 +105,8 @@ public class LocationSearchActivity extends AppCompatActivity implements DatePic
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        calculationDatePicker.setText("TODO: Set date string");
+        String monthString = new DateFormatSymbols().getShortMonths()[month];
+        calculationDatePicker.setText(monthString + " " + dayOfMonth + ", " + year);
     }
 
     @OnClick(R.id.fab)
