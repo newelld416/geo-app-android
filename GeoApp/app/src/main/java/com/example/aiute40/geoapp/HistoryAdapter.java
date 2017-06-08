@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.example.aiute40.geoapp.HistoryFragment.OnListFragmentInteractionListener;
 import com.truizlop.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,9 +101,11 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryAdapter.
 
     @Override
     protected void onBindItemViewHolder(ViewHolder holder, int section, int position) {
+
+        DecimalFormat df = new DecimalFormat("#.####");
         holder.mItem = this.dayValues.get(this.sectionHeaders.get(section)).get(position);
-        holder.mP1.setText("(" + holder.mItem.origLat + "," + holder.mItem.origLng + ")");
-        holder.mP2.setText("(" + holder.mItem.destLat + "," + holder.mItem.destLng + ")");
+        holder.mP1.setText("(" + df.format(holder.mItem.origLat) + "," + df.format(holder.mItem.origLng) + ")");
+        holder.mP2.setText("(" + df.format(holder.mItem.destLat) + "," + df.format(holder.mItem.destLng) + ")");
         holder.mDateTime.setText(holder.mItem.timestamp.toString());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
