@@ -2,6 +2,9 @@ package com.example.aiute40.geoapp;
 
 import org.parceler.Parcel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by aiute40 on 6/6/17.
  */

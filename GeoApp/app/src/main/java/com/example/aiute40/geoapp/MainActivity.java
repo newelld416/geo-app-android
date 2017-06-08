@@ -97,10 +97,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
             if (calculate()) {
                 LocationLookup entry = new LocationLookup();
-                entry.setOrigLat(lat1);
-                entry.setOrigLng(lon1);
-                entry.setDestLat(lat2);
-                entry.setDestLng(lon2);
+                entry.setOrigLat(Double.valueOf(latitude1.getText().toString()));
+                entry.setOrigLng(Double.valueOf(longitude1.getText().toString()));
+                entry.setDestLat(Double.valueOf(latitude2.getText().toString()));
+                entry.setDestLng(Double.valueOf(longitude2.getText().toString()));
                 DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
                 entry.setTimestamp(fmt.print(DateTime.now()));
                 topRef.push().setValue(entry);
