@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -72,6 +73,24 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @BindView(R.id.distanceText)
     public TextView distanceText;
 
+    @BindView(R.id.p1Icon)
+    public ImageView p1Icon;
+
+    @BindView(R.id.p2Icon)
+    public ImageView p2Icon;
+
+    @BindView(R.id.p1Summary)
+    public TextView p1Summary;
+
+    @BindView(R.id.p2Summary)
+    public TextView p2Summary;
+
+    @BindView(R.id.p1Temp)
+    public TextView p1Temp;
+
+    @BindView(R.id.p2Temp)
+    public TextView p2Temp;
+
     DatabaseReference topRef;
 
     public static List<LocationLookup> allHistory;
@@ -84,28 +103,29 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         ButterKnife.bind(this);
 
         allHistory = new ArrayList<>();
+    }
 
-        //This is our calculate button definition and action
-        Button calculateButton = (Button) findViewById(R.id.calculateButton);
-        calculateButton.setOnClickListener((v) -> {
-            hideSoftKeyBoard();
-            if(calculate()) {
-                saveItem();
-            }
-        });
+    @OnClick(R.id.calculateButton)
+    public void onClickCalculateButton(View view) {
+        hideSoftKeyBoard();
+        if(calculate()) {
+            saveItem();
+        }
+    }
 
-        Button clearButton = (Button) findViewById(R.id.clearButton);
-        clearButton.setOnClickListener((v) -> {
-            hideSoftKeyBoard();
+    @OnClick(R.id.clearButton)
+    public void onClickClearButton(View view) {
+        setWeatherViews(View.INVISIBLE);
 
-            longitude1.setText("");
-            longitude2.setText("");
-            latitude1.setText("");
-            latitude2.setText("");
+        hideSoftKeyBoard();
 
-            bearingText.setText(BEARING_BASE_STR);
-            distanceText.setText(DISTANCE_BASE_STR);
-        });
+        longitude1.setText("");
+        longitude2.setText("");
+        latitude1.setText("");
+        latitude2.setText("");
+
+        bearingText.setText(BEARING_BASE_STR);
+        distanceText.setText(DISTANCE_BASE_STR);
     }
 
     @Override
@@ -248,10 +268,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void onResume(){
         super.onResume();
+
+        // Firebase
         allHistory.clear();
         topRef = FirebaseDatabase.getInstance().getReference("history");
         topRef.addChildEventListener(chEvListener);
-        //topRef.addValueEventListener(valEvListener);
+
+        // View
+        setWeatherViews(View.INVISIBLE);
+    }
+
+    private void setWeatherViews(int visible) {
+        p1Icon.setVisibility(visible);
+        p2Icon.setVisibility(visible);
+        p1Summary.setVisibility(visible);
+        p2Summary.setVisibility(visible);
+        p1Temp.setVisibility(visible);
+        p2Temp.setVisibility(visible);
     }
 
     @Override
