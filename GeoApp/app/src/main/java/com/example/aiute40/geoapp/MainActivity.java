@@ -124,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 p1Summary.setText(summary);
                 p1Temp.setText(Double.toString(temp));
                 p1Icon.setImageResource(resID);
-                p1Icon.setVisibility(View.INVISIBLE);
             } else {
                 p2Summary.setText(summary);
                 p2Temp.setText(Double.toString(temp));
@@ -306,6 +305,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        // View
+        setWeatherViews(View.INVISIBLE);
+    }
+
+    @Override
     public void onResume(){
         super.onResume();
 
@@ -316,9 +322,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         IntentFilter weatherFilter = new IntentFilter(BROADCAST_WEATHER);
         LocalBroadcastManager.getInstance(MainActivity.this).registerReceiver(weatherReceiver, weatherFilter);
-
-        // View
-        setWeatherViews(View.INVISIBLE);
     }
 
     private void setWeatherViews(int visible) {
