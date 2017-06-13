@@ -1,16 +1,19 @@
 package com.example.aiute40.geoapp;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +36,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import webservice.WeatherService;
+
+import static com.example.aiute40.geoapp.R.id.lat1;
+import static com.example.aiute40.geoapp.R.id.lat2;
+import static com.example.aiute40.geoapp.R.id.lon1;
+import static com.example.aiute40.geoapp.R.id.lon2;
+import static webservice.WeatherService.BROADCAST_WEATHER;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -55,16 +65,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public static final String BEARING_UNITS_INTENT = "bearingUnits";
     public static final String BEARING_UNITS_INTENT_INDEX = "bearingUnitsIndex";
 
-    @BindView(R.id.lon1)
+    @BindView(lon1)
     public TextView longitude1;
 
-    @BindView(R.id.lon2)
+    @BindView(lon2)
     public TextView longitude2;
 
-    @BindView(R.id.lat1)
+    @BindView(lat1)
     public TextView latitude1;
 
-    @BindView(R.id.lat2)
+    @BindView(lat2)
     public TextView latitude2;
 
     @BindView(R.id.bearingText)
@@ -92,8 +102,36 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public TextView p2Temp;
 
     DatabaseReference topRef;
-
     public static List<LocationLookup> allHistory;
+
+    private BroadcastReceiver weatherReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            //Log.d(TAG, "onReceive: " + intent);
+
+            Bundle bundle = intent.getExtras();
+            double temp = bundle.getDouble("TEMPERATURE");
+            String summary = bundle.getString("SUMMARY");
+            String icon = bundle.getString("ICON").replaceAll("-", "_");
+            String key = bundle.getString("KEY");
+            int resID = getResources().getIdentifier(icon , "drawable", getPackageName());
+
+            setWeatherViews(View.VISIBLE);
+
+            if (key.equals("p1")) {
+                p1Summary.setText(summary);
+                p1Temp.setText(Double.toString(temp));
+                p1Icon.setImageResource(resID);
+                p1Icon.setVisibility(View.INVISIBLE);
+            } else {
+                p2Summary.setText(summary);
+                p2Temp.setText(Double.toString(temp));
+                p2Icon.setImageResource(resID);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +197,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             Double lat2Value = Double.parseDouble(latitude2.getText().toString());
             Double lon2Value = Double.parseDouble(longitude2.getText().toString());
 
+            WeatherService.startGetWeather(this, Double.toString(lat1Value), Double.toString(lon1Value), "p1");
+            WeatherService.startGetWeather(this, Double.toString(lat2Value), Double.toString(lon2Value), "p2");
 
             Location fromLocation = new Location("fromLocation");
             fromLocation.setLatitude(lat1Value);
@@ -274,6 +314,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         topRef = FirebaseDatabase.getInstance().getReference("history");
         topRef.addChildEventListener(chEvListener);
 
+        IntentFilter weatherFilter = new IntentFilter(BROADCAST_WEATHER);
+        LocalBroadcastManager.getInstance(MainActivity.this).registerReceiver(weatherReceiver, weatherFilter);
+
         // View
         setWeatherViews(View.INVISIBLE);
     }
@@ -288,7 +331,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     @Override
-    public void onPause(){ super.onPause();
+    public void onPause(){
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(weatherReceiver);
         topRef.removeEventListener(chEvListener);
     }
 

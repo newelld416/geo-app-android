@@ -10,7 +10,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBDS-cNx1qSQcHgzZQLGAQfWPX5nLGQ7OA" />
@@ -39,6 +38,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.aiute40.geoapp.MainActivity" />
         </activity>
+
+        <service
+            android:name="webservice.WeatherService"
+            android:exported="false"></service>
     </application>
 
 </manifest>
